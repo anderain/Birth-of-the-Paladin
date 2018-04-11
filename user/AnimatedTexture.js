@@ -4,12 +4,6 @@ function AnimatedTexture(texture, tilesHoriz, tilesVert, clips, tileDispDuration
         
     this.tilesHorizontal = tilesHoriz;
     this.tilesVertical = tilesVert;
-    // how many images does this spritesheet contain?
-    //  usually equals tilesHoriz * tilesVert, but not necessarily,
-    //  if there at blank tiles at the bottom of the spritesheet. 
-    // this.numberOfTiles = numTiles;
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping; 
-    texture.repeat.set( 1 / this.tilesHorizontal, 1 / this.tilesVertical );
 
     // how long should each image be displayed?
     this.tileDisplayDuration = tileDispDuration;
@@ -22,10 +16,18 @@ function AnimatedTexture(texture, tilesHoriz, tilesVert, clips, tileDispDuration
     this.clips = clips;
 
     // which clip is being played?
+    this.currentClipIndex = 0;
     this.currentClip = clips[0];
 
     // which image is currently being displayed?
     this.currentTile = this.currentClip.start;
+
+    // how many images does this spritesheet contain?
+    //  usually equals tilesHoriz * tilesVert, but not necessarily,
+    //  if there at blank tiles at the bottom of the spritesheet. 
+    // this.numberOfTiles = numTiles;
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping; 
+    texture.repeat.set( 1 / this.tilesHorizontal, 1 / this.tilesVertical );
 
     this.update = function( milliSec )
     {
@@ -44,8 +46,11 @@ function AnimatedTexture(texture, tilesHoriz, tilesVert, clips, tileDispDuration
     };
 
     this.playClip = function(index) {
-        if (index < 0 || index >= this.clips.length || this.currentClip == this.clips[index]) return;
+        if (index < 0 || index >= this.clips.length || this.currentClipIndex == index) return;
+        this.currentClipIndex = index;
         this.currentClip = this.clips[index];
         this.currentTile = this.currentClip.start;
     }
+
+    this.update(1000);
 }

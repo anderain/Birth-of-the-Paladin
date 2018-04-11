@@ -50,6 +50,14 @@ function KScene() {
                             }
                         });
 
+                        if (typeof(data.oldschool) != "undefined") {
+                            mesh.traverse(function(child) {
+                                if (child instanceof THREE.Mesh) {
+                                    child.material.map.magFilter = THREE.NearestFilter;
+                                }
+                            });
+                        }
+
                         root.add(mesh);
                         break;
                     default:

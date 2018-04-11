@@ -1,27 +1,29 @@
 function RPGMapCollider() {
 
     this.COLLIDER_LAYER = 11;
-
+    this.PLAYER_COLLIDER_LAYER = 12;
+    
     this.collider = [];
 
     this.invisibleMaterial = new THREE.MeshPhongMaterial( {color: 0x00ff00} );
 
-    this.addCube = function(position, size) {
+    this.addCube = function(p, size) {
         var geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
         var cube = new THREE.Mesh(geometry, this.invisibleMaterial);
         $scene.threeScene.add(cube);
         this.collider.push(cube);
 
+        cube.position.set(p.x, p.y, p.z);
         cube.layers.set(this.COLLIDER_LAYER);
     };
 
     this.player = null;
-    this.playerWidth = 0.25;
+    this.playerWidth = 0.5;
     this.playerSpeed = 5;
 
     this.addPlayer = function() {
         var playerMaterial = new THREE.MeshPhongMaterial( {color: 0x2222ff} );
-        var geometry = new THREE.BoxGeometry(0.5, 1, 0.5);
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
         this.player = new THREE.Mesh(geometry, playerMaterial);
         this.player.position.set(2,0,2);
         $scene.threeScene.add(this.player);
@@ -33,6 +35,15 @@ function RPGMapCollider() {
         }
         else {
             $camera.layers.disable(this.COLLIDER_LAYER);
+        }
+    };
+
+    this.setPlayerColliderVisible  = function(flag) {
+        if (flag) {
+            this.player.layers.set(0);
+        }
+        else {
+            this.player.layers.set(this.PLAYER_COLLIDER_LAYER);
         }
     };
 

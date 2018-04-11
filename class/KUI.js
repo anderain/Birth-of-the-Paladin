@@ -20,6 +20,11 @@ var KUI = {
         leftBottom:null,    bottom:null,    rightBottom: null
     },
 
+    realSize : {
+        width: 0,
+        height: 0,
+    },
+
     uiObjects: {},
     detectableObjects: [],
 
@@ -168,6 +173,11 @@ var KUI = {
             height = this.ResponsiveSize.maxHeight;
         }
 
+        this.realSize = {
+            width: width,
+            height: height
+        };
+
         c.left = - width / 2;
         c.right = width / 2;
         c.top = height / 2;
@@ -200,30 +210,51 @@ var KUI = {
 
     update: function() {
         
-        // this.raycaster.setFromCamera(KInput.mousePosition, this.cameraOrtho);
-        // // calculate objects intersecting the picking ray
-        // var intersects = this.raycaster.intersectObjects(this.detectableObjects);
+        this.raycaster.setFromCamera(KInput.mousePosition, this.cameraOrtho);
+        // calculate objects intersecting the picking ray
+        var intersects = this.raycaster.intersectObjects(this.detectableObjects);
 
-        // var click = false;
+        var click = false;
+        var mousedown = false;
+        var mouseup = false;
 
-        // if (!this.mouseButtonStatus[0]) {
-        //     if (KInput.mouseButtonStatus[0]) {
-        //         this.mouseButtonStatus[0] = 1;
-        //     }
-        // } else {
-        //     if (!KInput.mouseButtonStatus[0]) {
-        //         this.mouseButtonStatus[0] = 0;
-        //         click = true;
-        //     }        
-        // }
+        if (!this.mouseButtonStatus[0]) {
+            if (KInput.mouseButtonStatus[0]) {
+                this.mouseButtonStatus[0] = 1;
+            }
+        } else {
+            if (!KInput.mouseButtonStatus[0]) {
+                this.mouseButtonStatus[0] = 0;
+                click = true;
+            }
+        }
+            //console.log(KInput.mouseButtonStatus[0]);
+        if (KInput.mouseButtonStatus[0]) {
+            mousedown = true;
+        }
+        else {
+            mouseup = true;
+        }
 
-        // for (var i = 0; i < intersects.length; ++i) {
-        //     var obj = intersects[i].object;
-        //     if (click) {
-        //         if (obj.onClick) obj.onClick();
-        //     } else {
-        //         if (obj.onHover) obj.onHover();
-        //     }
-        // }
+        for (var i = 0; i < intersects.length; ++i) {
+            var obj = intersects[i].object;
+
+            if (click) {
+                if (obj.onClick) obj.onClick();
+            } else if (mousedown) {
+                if (!obj.isMouseDown && obj.onMouseDown)  {
+                    obj.isMouseDown = true;
+                    obj.onMouseDown();
+                }
+            } else if (mouseup) {
+                if (obj.isMouseDown && obj.onMouseUp) {
+                    obj.onMouseUp();
+                }
+                obj.isMouseDown = false;
+            }
+            else {
+                if (obj.onHover) obj.onHover();
+            }
+        }
     }
 };

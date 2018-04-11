@@ -1,0 +1,47 @@
+{
+    "name" : "title scene",
+    "ui" : {
+        "title" : "./assets/title_text.png"
+    },
+    "gameObjects" : [
+        {
+            "type" : "Group",
+            "name" : "pumpkin",
+            "position" : {
+                "x": 0, "y": 0, "z": 0
+            },
+            "scale": {
+                "x": 1, "y": 1, "z": 1
+            },
+            "gameObjects" : [
+                {
+                    "type" : "Mesh",
+                    "name" : "real_pumpkin",
+                    "fileType" : "obj",
+                    "path" : "./assets/fruits/pumpkin01.obj",
+                    "castShadow" : true,
+                    "receiveShadow" : false
+                }
+            ]
+        },
+        {
+            "type" : "AmbientLight",
+            "name" : "ambient light",
+            "config" : {
+                "color"     : "0xffffff",
+                "intensity" : 0.6
+            }
+        },
+        {
+            "type" : "DirectionalLight",
+            "name" : "directional light",
+            "forward" : {
+                "x": 0.4, "y": 0.8, "z": 0.4
+            },
+            "config" : {
+                "color"     : "0xffffff",
+                "intensity" : 1.1
+            }
+        }
+    ]
+}

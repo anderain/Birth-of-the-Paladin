@@ -30,8 +30,8 @@ var KInput = {
                 var touch = e.targetTouches[0];
                 self.mousePosition.x = (touch.pageX / window.innerWidth) * 2 - 1;
                 self.mousePosition.y = -(touch.pageY / window.innerHeight) * 2 + 1;
-                self.mouseButtonStatus[0] = true;
             }
+            self.mouseButtonStatus[0] = true;
         }, false);
 
         window.addEventListener('touchmove', function (e) {
@@ -40,8 +40,8 @@ var KInput = {
                 var touch = e.targetTouches[0];
                 self.mousePosition.x = (touch.pageX / window.innerWidth) * 2 - 1;
                 self.mousePosition.y = -(touch.pageY / window.innerHeight) * 2 + 1;
-                self.mouseButtonStatus[0] = false;
             }
+            console.log(self.mouseButtonStatus[0]);
         }, false);
         
         window.addEventListener('touchend', function (e) {
@@ -50,8 +50,8 @@ var KInput = {
                 var touch = e.targetTouches[0];
                 self.mousePosition.x = (touch.pageX / window.innerWidth) * 2 - 1;
                 self.mousePosition.y = -(touch.pageY / window.innerHeight) * 2 + 1;
-                self.mouseButtonStatus[0] = false;
             }
+            self.mouseButtonStatus[0] = false;
         }, false);
     },
 
